@@ -1,0 +1,209 @@
+<!--
+
+  THIS IS HOW YOU ADD THE IMAGES TO THE WIBSITE IN DJANGO
+  https://www.youtube.com/watch?v=aNk2CAkHvlE&ab_channel=DennisIvy
+  https://www.youtube.com/watch?v=aNk2CAkHvlE&ab_channel=DennisIvy
+  https://www.youtube.com/watch?v=aNk2CAkHvlE&ab_channel=DennisIvy
+
+  settings.py:
+    MEDIA_URL = '/images/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
+  models.py:
+    image = models.ImageField(null=True, blank=True)
+  views.py:
+  pics=Picture.objects.all()
+  return render(request, 'test.html', {'pics':pics})
+  urls.py in main project:
+  from django.conf.urls.static import static
+  from django.conf import settings 
+  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+-->
+
+<!--{% load static %} do this so we can load django static files-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pictures</title>
+    <link rel="stylesheet" href="">
+
+    <!--fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+  </head>
+  <body>
+    <main>
+      <div id="overlay"></div>
+      <div class="make-picture-big-wrapper">
+        <img src="" class="make-picture-big">
+        <img src="../static/assets/img/close_page.png" class="close-picture">
+      </div>
+
+      <div class="grid">
+          {% for x in pics  %}
+
+          <div class="picture">
+            <div class="image-wrapper">
+              <img class="image" src="{{x.image.url}}">
+              <div class="name-image">{{x.name}}</div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+
+
+    </main>
+	  <script>
+
+      var isPictureThere=0; //1 if yes 0 if no
+
+      //check if image is not fullscreen. if not fullscreen then display: none on make-picture-big-wrapper:
+
+      if (isPictureThere==0){
+        document.getElementsByClassName('make-picture-big-wrapper')[0].style.display = 'none';
+      }
+
+      //define makebigger function
+      function makebigger(){
+        var sourceOfImage = this.children[0].src; //GET THE FIRST CHILD AND GET ITS SRC="source to image"
+        //in step above we are getting the source of iamge that was pressed
+        //now we are going to put this source in the placeholder
+        //we are making it fullscreen
+        //if we click on image make it fullscreen and delete display:none
+        document.getElementsByClassName('make-picture-big-wrapper')[0].style.removeProperty('display'); //now we can display
+        document.getElementsByClassName('make-picture-big')[0].src=sourceOfImage; //put the source in the placeholder
+        isPictureThere = 1;
+
+        //make background dimmer when image is fullscreen
+        document.getElementById('overlay').style.opacity='1';
+         
+      }
+
+      //add event listeners to every image-wrapper class
+      var elements = document.getElementsByClassName('image-wrapper');
+      for (var i=0; i<elements.length; i++){
+        elements[i].addEventListener('click', makebigger);
+      }
+
+
+
+      //define makeSmaller function:
+      function makeSmaller(){
+        document.getElementsByClassName('make-picture-big-wrapper')[0].style.display = 'none';
+
+        //make background normal again
+        document.getElementById('overlay').style.opacity='0';
+      }
+
+      //add event listeners to close-picture class:
+      var closePicture = document.getElementsByClassName('close-picture');
+      closePicture[0].addEventListener('click', makeSmaller);
+
+
+
+    </script>
+  </body>
+  <style>
+
+    body{
+      background-color: rgba(170, 237, 183, 0.8);
+    }
+
+    #overlay{
+      position:fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.8);
+      pointer-events: none;
+      opacity:0;
+    }
+
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 15px;
+      row-gap: 40px;
+    }
+
+    @media (max-width: 750px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .make-picture-big-wrapper{
+        width: 535px;
+      }
+    }
+
+    @media (min-width: 751px) and (max-width: 999px) {
+      .grid {
+        grid-template-columns: 1fr 1fr 1fr ;
+      }
+      .make-picture-big-wrapper{
+        width: 739px;
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      .make-picture-big-wrapper{
+        width:985px;
+      }
+    }
+
+    .image{
+      height:250px;
+      border-radius: 30px;
+    }
+
+    .name-image{
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      font-weight: 400;
+      font-size: 30px;
+    }
+
+    .picture{
+      display:flex;
+      justify-content: center;
+    }
+
+    .make-picture-big-wrapper{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .make-picture-big{
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      max-width: fit-content;
+      display: relative;
+    }
+
+    .close-picture{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+    }
+    
+
+
+  </style>
+</html>

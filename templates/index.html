@@ -1,0 +1,178 @@
+<!--{% load static %} do this so we can load django static files-->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pictures</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+
+    <!--fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+  </head>
+  <body>
+    <main>
+      <div class="background-image">
+        <div class="heading">
+          <div class="heading-picture-wrap">
+            <img class="heading-picture" src="../static/assets/img/IMG_9566.jpeg">
+          </div>
+          <div class="heading-text-wrapper">
+            <div class="heading-text">
+              Welcome to the World of the Pictures
+            </div> 
+          </div>
+        </div>
+        <div class="pictures-button-wrapper">
+          
+          <a class="pictures-button-link" href="/about/">
+            <button class="pictures-button">about me </button>
+          </a>
+
+          <a class="pictures-button-link" href="/pictures/">
+            <button class="pictures-button">pictures</button>
+          </a>
+          
+        </div>
+      </div> 
+      
+    </main>
+	<script src="index.js"></script>
+  </body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* background: */
+
+    .background-image {
+      background-image: url('../static/assets/img/IMG_7441.jpeg'); /* veiw port height. users visible area of webpage */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      box-sizing: border-box;
+      max-width: 100%;
+    }
+
+    /* heading: */
+
+    .heading {
+      padding-left: 20px;
+      padding-right:20px;
+      padding-top: 20px;
+      display:flex;
+      flex-direction: row;
+      column-gap: 20px;
+      height:500px;
+      max-width: fit-content;/* this is for safari browser
+      otherwise you would get white spots on the right  */
+    }
+
+    .heading-text-wrapper{
+      flex:3;
+      display: flex;
+      align-items: center;
+    }
+
+    .heading-text {
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      color: white;
+      font-weight: 700;
+      font-size: 150px;
+    }
+
+    .heading-picture-wrap{
+      flex:1;
+    }
+
+    .heading-picture{
+      height:100%;
+      border-radius: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 750px) {
+      .heading-text {
+        font-size: 40px;
+      }
+
+    }
+    /*this means that below 750px there is going to be two columns in our grid*/
+
+    @media (min-width: 751px) and (max-width: 999px) {
+      .heading-text {
+        font-size: 70px;
+      }
+      .heading{
+        height:500px;
+      }
+    }
+    /* This media quirey takes care of middle size screens from 751px to 999px */
+
+    @media (min-width: 1000px) {
+      .heading-text {
+        font-size: 130px;
+      }
+      .heading{
+        height:850px;
+      }
+    }
+
+    /* "pictures" button: */
+
+    .pictures-button-wrapper{
+      height:100vh;
+      display:flex;
+      justify-content: center;
+      
+    }
+
+/*
+CENTERING DIV INSIDE THE DIV!!!
+how to center the conents of a div within another div? 
+on the parent display flex and justify-content for horiz and align-items for vertical
+on the child transform: translate(50%,50%);
+
+*/
+
+    .pictures-button{
+      margin-top: 40px;
+      background-color: red;
+      color: black;
+      font-size: 22px;
+      padding: 16px 30px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: center;
+      transform: translate(50%,50%);
+    }
+
+    .pictures-button:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .pictures-button-link{
+      text-decoration: none;
+      color:black;
+      margin-right:20px;
+    }
+    
+
+  </style>
+</html>
